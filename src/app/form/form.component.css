@@ -1,0 +1,16 @@
+.container {
+    margin: 20px auto;
+}
+textarea {
+    font-family: "Courier New";
+    resize:vertical;
+    min-height: 500px;
+}
+.row-flex {
+    display: flex;
+    flex-flow: row wrap;
+}
+
+.row-flex .card {
+    width: 100%;
+}

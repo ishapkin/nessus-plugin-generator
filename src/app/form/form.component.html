@@ -1,0 +1,69 @@
+<div class="container">
+  <div class="row">
+    <div class="col-lg-6 row-flex">
+      <div class="card">
+        <div class="card-header">
+          <h4>Ввод условий</h4>
+        </div>
+        <div class="card-block">
+          <form [formGroup]="form" (ngSubmit)="onSubmit()">
+            <div class="form-group">
+              <label>Имя сценария</label>
+              <input class="form-control" formControlName="script_name" placeholder="Название">
+            </div>
+            <div class="form-group">
+              <label>Подробное описание уязвимости</label>
+              <input class="form-control" formControlName="script_description" placeholder="Описание">
+            </div>
+            <div class="form-group">
+              <label>Однострочное описание назначения сценария</label>
+              <input class="form-control" formControlName="script_summary" placeholder="Описание">
+            </div>
+            <div class="form-group">
+              <label>Категория уязвимости:</label>
+              <select required formControlName="script_category" class="form-control"> <!-- <== changed -->
+                <option selected disabled>Категория уязвимости</option>
+                <option *ngFor="let category of categories" [ngValue]="category.key">{{category.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Класс поведения сценария:</label>
+              <select placeholder="Описание" required formControlName="script_family" class="form-control"> <!-- <== changed -->
+                <option selected disabled>Класс поведения</option>
+                <option *ngFor="let son of family" [ngValue]="son.key">{{son.name}}</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Копирайт сценария (авторские права)</label>
+              <input class="form-control" formControlName="script_copyright" placeholder="Копирайт сценария">
+            </div>
+            <div class="form-group">
+              <label>Зависимости от других скриптов через запятую в двойных кавычках</label>
+              <input class="form-control" formControlName="script_dependencies" placeholder="Зависимости">
+            </div>
+            <div class="form-group">
+              <label>Порт</label>
+              <input class="form-control" formControlName="script_required_ports" placeholder="Порт">
+            </div>
+            <small class="text-primary">
+              * При вводе кириллицей символы будут переведены в транслит<br/>
+              ** Все поля обязательны для заполнения
+            </small>
+          </form>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-6 row-flex">
+      <div class="card">
+        <div class="card-header">
+          <h4>Исходный код</h4>
+        </div>
+        <div class="card-block">
+          <textarea class="form-control">
+              {{ dataHandler(output) }}
+          </textarea>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
