@@ -6,8 +6,7 @@ html {
 }
 body {
     /* Margin bottom by footer height */
-    margin-bottom: 60px;
-    padding-top: 5rem;
+    margin-bottom: 100px;
     min-height: 100%;
 }
 .footer {
@@ -23,9 +22,6 @@ body {
 -------------------------------------------------- */
 /* Not required for template or sticky footer method. */
 
-body > .container {
-    padding: 60px 15px 60px;
-}
 
 .footer > .container {
     padding-right: 15px;
