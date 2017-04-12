@@ -1,0 +1,9 @@
+textarea {
+    font-family: "Courier New";
+    resize:vertical;
+    min-height: 500px;
+}
+.row-flex {
+    display: flex;
+    flex-flow: row wrap;
+}
