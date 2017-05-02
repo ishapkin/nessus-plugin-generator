@@ -1,6 +1,11 @@
 import { Component, OnInit } from '@angular/core';
 import { FormBuilder} from '@angular/forms';
 import {plugin, family, categories} from './data';
+import { Http, Response, Headers, RequestOptions } from '@angular/http';
+import { Observable } from 'rxjs/Observable';
+import 'rxjs/add/operator/map';
+import 'rxjs/add/operator/catch';
+import 'rxjs/add/operator/toPromise';
 
 @Component({
   selector: 'app-form',
@@ -14,24 +19,30 @@ export class FormComponent implements OnInit {
   categories = categories;
   family     = family;
 
-    constructor(private formBuilder: FormBuilder) {
+    constructor(private formBuilder: FormBuilder, private http: Http) {
 
     this.form = formBuilder.group(plugin);
 
     this.form.valueChanges.subscribe(data => {
-      this.output = data
+      this.output = data;
+      this.getFile(data);
     });
   }
 
+    /**
+     * dataHandler
+     * @param output
+     * @returns {string}
+     */
   dataHandler(output = plugin) {
 
-      for (let key in output) {
-          if(['script_dependencies', 'script_family', 'script_category'].indexOf(key) === -1) {
-              output[key] = this.toTransLit(output[key]);
-          }
-      }
+    for (let key in output) {
+        if(['script_dependencies', 'script_family', 'script_category'].indexOf(key) === -1) {
+            output[key] = this.toTransLit(output[key]);
+        }
+    }
 
-      return `
+    return `
       # Описание скрипта
       if(description){
           script_version("$Revision:1.0$");
@@ -64,6 +75,22 @@ export class FormComponent implements OnInit {
           }
       `;
   }
+
+    public getFile(data) {
+       data = this.dataHandler(data);
+       let bodyString = JSON.stringify(data); // Stringify payload
+       let headers      = new Headers({ 'Content-Type': 'application/json' }); // ... Set content type to JSON
+       let options       = new RequestOptions({ headers: headers }); // Create a request option
+
+        this.http.post("http://localhost:3000/file", {
+            filename: 'file.nasl',
+            content: data
+        }, options) // ...using post request
+        .map(res => res.json()) // ...and calling .json() on the response to return data
+        .catch((error:any) => Observable.throw(error.json().error || 'Server error')) //...errors if
+        .subscribe();
+    }
+
 
   /**
    *
