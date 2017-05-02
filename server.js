@@ -1,18 +1,33 @@
-let http = require("http");
-let server = http.createServer(function(request, response) {
-    response.writeHead(200, {"Content-Type": "text/html"});
-    response.write("<!DOCTYPE html>");
-    response.write("<html>");
-    response.write("<head>");
-    response.write("<meta charset='utf-8'>");
-    response.write("<title>Nessus backend</title>");
-    response.write("</head>");
-    response.write("<body>");
-    response.write("4 ЦНИИ & ВА РСВСН");
-    response.write("</body>");
-    response.write("</html>");
-    response.end();
-});
+let http = require('http'),
+    fs = require('fs'),
+    port = 9999,
+    host = '127.0.0.1';
 
-server.listen(8888);
-console.log("Server is listening");
+server = http.createServer( function(req, res) {
+
+    console.dir(req.param);
+
+    if (req.method == 'POST') {
+        console.log("POST");
+        var body = '';
+        req.on('data', function (data) {
+            body += data;
+            console.log("Partial body: " + body);
+        });
+        req.on('end', function () {
+            console.log("Body: " + body);
+        });
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end('post received');
+    }
+    else
+    {
+        console.log("GET");
+        let html = `<html><body></body></html>`;
+        res.writeHead(200, {'Content-Type': 'text/html'});
+        res.end(html);
+    }
+
+});
+server.listen(port, host);
+console.log('Listening at http://' + host + ':' + port);
